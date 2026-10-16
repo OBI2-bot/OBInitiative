@@ -15,6 +15,6 @@
   },
   // Form submissions are stored here, keyed by <form>:<ISO date>:<id>.
   "kv_namespaces": [
-    { "binding": "SUBMISSIONS", "id": "3240c80e3245451db0e6aa27c2eac303" }
+    { "binding": "SUBMISSIONS", "id": "6431be4c0d7a424c8c19627785de840e" }
   ]
 }
