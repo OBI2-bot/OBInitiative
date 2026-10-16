@@ -7,11 +7,14 @@ import barbra from '../assets/team/mirembe-barbra.jpg';
 import maimuna from '../assets/team/maimuna-nakanwagi.jpg';
 import athalia from '../assets/team/kataike-athalia-lenny.jpg';
 import kaone from '../assets/team/kaone-selebogo.jpg';
-import ricardo from '../assets/team/ricardo-torres-haces.jpeg';
-import ignatius from '../assets/team/ignatius-neshena.png';
+import mohamad from '../assets/team/mohamad-fouad-arabi.jpg';
+import angela from '../assets/team/angela-chongo.jpg';
+import zheng from '../assets/team/zheng-li.jpg';
+import irene from '../assets/team/irene-baena-garcia.jpg';
+import ignatius from '../assets/team/ignatius-neshena.jpg';
 import sophie from '../assets/team/sophie-cumberpatch.jpeg';
+import zoe from '../assets/team/zoe-akinbodunse.jpg';
 import bayabonga from '../assets/team/bayabonga-nhlabatsi.jpg';
-import mahesh from '../assets/team/mahesh-nanavare.jpg';
 
 export type TeamMember = {
   name: string;
@@ -80,11 +83,30 @@ export const team: TeamMember[] = [
     focus: '50% 20%',
   },
   {
-    name: 'Ricardo Tonatiuh Torres Haces',
-    role: 'Programmes Manager',
-    bio: 'His work integrates data-driven analysis, policy implementation, and capacity-building strategies to strengthen institutional accountability and advance gender equality, education, and human rights protection in diverse cultural settings.',
-    photo: ricardo,
-    focus: '50% 20%',
+    name: 'Mohamad Fouad Arabi',
+    role: 'Operations Manager',
+    bio: 'A board member, management consultant and philanthropist with experience across more than 12 countries, advising leaders on governance, business development and strategic partnerships, and championing youth empowerment and community impact.',
+    photo: mohamad,
+    focus: '50% 15%',
+  },
+  {
+    name: 'Angela Chongo',
+    role: 'Program Officer, W.A.S.H.',
+    bio: 'A programme management and MEAL professional with experience in public health, data management and community development, passionate about programmes that meet the needs of every individual, with a growing focus on sustainable water, sanitation and hygiene.',
+    photo: angela,
+    focus: '50% 25%',
+  },
+  {
+    name: 'Dr. Zheng Li',
+    role: 'Program Officer, Climate Resilience',
+    bio: 'A UK-based legal and policy researcher with a background in engineering and international environmental and energy law. Zheng supports our environmental education, climate clubs and community fruit-tree planting.',
+    photo: zheng,
+  },
+  {
+    name: 'Irene Baena Garcia',
+    role: 'Program Officer, Mental Health / Institutional Fundraiser',
+    bio: 'Committed to intersectional justice and community-led solutions to structural inequalities, Irene brings close to 20 years of experience in international regulatory affairs. She is currently studying African Studies in Basel.',
+    photo: irene,
   },
   {
     name: 'Ignatius Neshena',
@@ -100,17 +122,17 @@ export const team: TeamMember[] = [
     focus: '55% 38%',
   },
   {
+    name: 'Zoe Akinbodunse',
+    role: 'Public Relations, Communications and Media Officer / Brand Ambassador',
+    bio: "Deeply passionate about public relations and experienced in the field, Zoe believes in giving back and is doing so through her work with Obuyisi bw'Omu Initiative.",
+    photo: zoe,
+    focus: '66% 50%',
+  },
+  {
     name: 'Bayabonga Nhlabatsi',
     role: 'IT Specialist / Web Developer',
     bio: 'An IT professional with a passion for leveraging technology to drive social impact. His commitment to combining tech expertise with meaningful causes fuels his dedication to making a difference through innovation.',
     photo: bayabonga,
-    focus: '50% 20%',
-  },
-  {
-    name: 'Mahesh Nanavare',
-    role: 'Assistant Web Developer',
-    bio: 'I am incredibly glad to use my technology skills to support the community and contribute to a meaningful cause. With a strong background in building easy-to-use digital tools, my focus is on keeping our website welcoming and reliable.',
-    photo: mahesh,
     focus: '50% 20%',
   },
 ];

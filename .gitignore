@@ -21,3 +21,6 @@ OBI content text.pdf
 
 .DS_Store
 .idea/
+
+# files not needed by the site, parked here before moving out of the repo
+to_be_moved_outside/
