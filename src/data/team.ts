@@ -12,7 +12,8 @@ import angela from '../assets/team/angela-chongo.jpg';
 import zheng from '../assets/team/zheng-li.jpg';
 import irene from '../assets/team/irene-baena-garcia.jpg';
 import ignatius from '../assets/team/ignatius-neshena.jpg';
-import sophie from '../assets/team/sophie-cumberpatch.jpeg';
+import karabelo from '../assets/team/karabelo-rose-ralesai.jpeg';
+import jacob from '../assets/team/jacob-kumenda.jpg';
 import zoe from '../assets/team/zoe-akinbodunse.jpg';
 import bayabonga from '../assets/team/bayabonga-nhlabatsi.jpg';
 
@@ -109,17 +110,23 @@ export const team: TeamMember[] = [
     photo: irene,
   },
   {
+    name: 'Karabelo Rose Ralesai',
+    role: 'Program Officer, Education Support',
+    bio: 'A South African passionate about the power of education to change the course of a life, whatever the circumstances. Karabelo helps make learning materials accessible to students, and away from work enjoys a good book or a hike.',
+    photo: karabelo,
+    focus: '50% 25%',
+  },
+  {
     name: 'Ignatius Neshena',
     role: 'Grant Writer and Fundraising Donor Relations Officer',
     bio: 'A seasoned finance and business strategy professional with over 15 years of experience across corporate and development sectors, dedicated to driving sustainable growth and financial strategy for our community programmes.',
     photo: ignatius,
   },
   {
-    name: 'Sophie Cumberpatch',
-    role: 'Public Relations, Communications Officer and Media Manager',
-    bio: "I am an Experimental Psychology graduate from the University of Oxford with a passion for mental health. I look forward to furthering the organisation's mission through establishing meaningful relationships and communication strategies throughout both Uganda and Europe.",
-    photo: sophie,
-    focus: '55% 38%',
+    name: 'Jacob Kumenda',
+    role: 'Business Development Officer',
+    bio: 'With a background in economics and finance, Jacob builds sustainable financial systems for our work: designing donor packages, engaging partners and aligning our programmes with long-term impact goals.',
+    photo: jacob,
   },
   {
     name: 'Zoe Akinbodunse',
