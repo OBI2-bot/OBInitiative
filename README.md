@@ -69,9 +69,15 @@ npx wrangler kv key list --binding SUBMISSIONS --remote --prefix story:
 npx wrangler kv key get  --binding SUBMISSIONS --remote "story:2026-10-01T09:30:00.000Z:ab12cd34"
 ```
 
-**Nothing emails you when a form is submitted.** Entries sit in KV until someone looks, so make checking a regular habit — daily while the Story Competition is open, since entrants get no reply from us otherwise.
+**Email notifications:** after saving a submission, the Worker emails a copy to info@obuyisibwomuinitiative.org through [Resend](https://resend.com), sent from forms@obuyisibwomuinitiative.org. Replying to the email replies to the person who filled in the form. KV is still the source of truth: if an email doesn't arrive, the submission is still saved there, and the reason is in the Worker's logs (Cloudflare dashboard → Workers → obinitiative → Logs).
 
-Automatic email notifications would need Cloudflare's Email Sending, which requires the Workers Paid plan (about $5/month), or a third-party sender such as Resend. Neither is set up.
+This needs the Resend API key stored as a Worker secret (once, or again if the key changes):
+
+```sh
+npx wrangler secret put RESEND_API_KEY
+```
+
+The obuyisibwomuinitiative.org domain must also be verified in Resend (it gives you DNS records to add in Cloudflare), or Resend will refuse to send. For local testing with `npm run preview`, put a key in `.dev.vars` (never committed).
 
 ## Deploying
 

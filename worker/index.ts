@@ -3,7 +3,7 @@
  *
  * Static pages are served directly from ./dist (see wrangler.jsonc). This Worker only runs for /api/* and
  * handles the site's three forms (volunteer/intern applications, story competition, newsletter sign-up),
- * saving each submission to the SUBMISSIONS KV namespace.
+ * saving each submission to the SUBMISSIONS KV namespace and emailing a copy to NOTIFY_TO via Resend.
  *
  * Read submissions with:
  *   npx wrangler kv key list --binding SUBMISSIONS --remote --prefix volunteer:
@@ -14,7 +14,12 @@
 interface Env {
   ASSETS: Fetcher;
   SUBMISSIONS?: KVNamespace;
+  // Secret: set with `npx wrangler secret put RESEND_API_KEY` (and in .dev.vars for local testing).
+  RESEND_API_KEY?: string;
 }
+
+const NOTIFY_FROM = 'OBI Website <forms@obuyisibwomuinitiative.org>';
+const NOTIFY_TO = 'info@obuyisibwomuinitiative.org';
 
 type FormSpec = { required: string[]; optional: string[]; maxLengths?: Record<string, number> };
 
@@ -39,19 +44,19 @@ const DEFAULT_MAX_LENGTH = 500;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default {
-  async fetch(request, env): Promise<Response> {
+  async fetch(request, env, ctx): Promise<Response> {
     const url = new URL(request.url);
 
     if (url.pathname === '/api/submit' || url.pathname === '/api/submit/') {
       if (request.method !== 'POST') return new Response('Method not allowed', { status: 405, headers: { Allow: 'POST' } });
-      return handleSubmit(request, env, url);
+      return handleSubmit(request, env, ctx, url);
     }
 
     return env.ASSETS.fetch(request);
   },
 } satisfies ExportedHandler<Env>;
 
-async function handleSubmit(request: Request, env: Env, url: URL): Promise<Response> {
+async function handleSubmit(request: Request, env: Env, ctx: ExecutionContext, url: URL): Promise<Response> {
   const contentType = request.headers.get('content-type') ?? '';
   if (!contentType.includes('application/x-www-form-urlencoded') && !contentType.includes('multipart/form-data')) {
     return errorPage(415, 'Unsupported form encoding.');
@@ -90,7 +95,7 @@ async function handleSubmit(request: Request, env: Env, url: URL): Promise<Respo
     form: formName,
     submittedAt,
     fields,
-    country: request.cf?.country ?? null,
+    country: (request.cf?.country as string | undefined) ?? null,
   };
   // Key sorts chronologically within each form, e.g. "story:2026-09-19T10:00:00.000Z:1a2b3c".
   const key = `${formName}:${submittedAt}:${crypto.randomUUID().slice(0, 8)}`;
@@ -98,7 +103,40 @@ async function handleSubmit(request: Request, env: Env, url: URL): Promise<Respo
     metadata: { name: fields.name ?? [fields.firstName, fields.lastName].filter(Boolean).join(' '), email: fields.email },
   });
 
+  // Runs after the response is sent, so a slow or failing email never affects the visitor.
+  ctx.waitUntil(notify(env, record));
+
   return Response.redirect(thankYou, 303);
+}
+
+type SubmissionRecord = { form: string; submittedAt: string; fields: Record<string, string>; country: string | null };
+
+async function notify(env: Env, record: SubmissionRecord): Promise<void> {
+  if (!env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY is not set; no notification email sent', { form: record.form });
+    return;
+  }
+  const lines = [
+    ...Object.entries(record.fields).map(([key, value]) => `${key}: ${value}`),
+    `country: ${record.country ?? 'unknown'}`,
+    `submittedAt: ${record.submittedAt}`,
+  ];
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: NOTIFY_FROM,
+        to: [NOTIFY_TO],
+        ...(record.fields.email ? { reply_to: record.fields.email } : {}),
+        subject: `New ${record.form} submission`,
+        text: lines.join('\n'),
+      }),
+    });
+    if (!res.ok) console.error('Resend rejected notification email', { form: record.form, status: res.status, body: await res.text() });
+  } catch (err) {
+    console.error('Failed to send notification email', { form: record.form, error: String(err) });
+  }
 }
 
 function errorPage(status: number, message: string): Response {
