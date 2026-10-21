@@ -121,6 +121,7 @@ export const team: TeamMember[] = [
     role: 'Grant Writer and Fundraising Donor Relations Officer',
     bio: 'A seasoned finance and business strategy professional with over 15 years of experience across corporate and development sectors, dedicated to driving sustainable growth and financial strategy for our community programmes.',
     photo: ignatius,
+    focus: '50% 0%',
   },
   {
     name: 'Jacob Kumenda',
